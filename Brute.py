@@ -39,6 +39,6 @@ if __name__ == '__main__':
             print('符合条件的结果：\n'+solution)
             print("final is in ", round(end - start), 's')
         else:
-            print("Nothing match this")
+            print("sorry，这个式子臣妾真的尽力了，找不到结果")
     except Exception as e:
         print("Error: " + str(e))
