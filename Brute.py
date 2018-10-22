@@ -1,6 +1,6 @@
 import re
 import time
-from itertools import permutations
+from itertools import permutations                  # 全排列的包
 
 
 def solve(puzzle):
@@ -11,16 +11,18 @@ def solve(puzzle):
     first_letters = {word[0] for word in words}    # 首字母
     n = len(first_letters)
     sorted_characters = ''.join(first_letters) + \
-                        ''.join(unique_characters - first_letters)
+                        ''.join(unique_characters - first_letters)     # 排序，把首字母放在前面
     characters = tuple(ord(c) for c in sorted_characters)
     digits = tuple(ord(str(c)) for c in range(10))
-    zero = digits[0]     # 数字0不能是第一位
+    zero = digits[0]
     print('蛮力测试：\n')
-    for guess in permutations(digits, len(characters)):
-        if zero not in guess[:n]:
-            equation = puzzle.translate(dict(zip(characters, guess)))     # 转换字符
+    for guess in permutations(digits, len(characters)):    # 对十个数字进行全排列
+        if zero not in guess[:n]:     # 首字母不为零
+
+            equation = puzzle.translate(dict(zip(characters, guess)))     # 转换字符,用数字替换字母
             dig = tuple(chr(c) for c in guess)
-            if eval(equation):               # 将字符串string对象转化为有效的表达式进行计算
+
+            if eval(equation):               # 判断等式是否成立
                 print(sorted_characters)
                 print(dig)
                 return equation
@@ -36,7 +38,7 @@ if __name__ == '__main__':
         end = time.clock()
         if solution:
             print(puzzle)
-            print('符合条件的结果：\n'+solution)
+            print('\n'+solution)
             print("final is in ", round(end - start), 's')
         else:
             print("sorry，这个式子臣妾真的尽力了，找不到结果")
