@@ -5,7 +5,7 @@ from itertools import permutations
 
 def solve(puzzle):
     puzzle = puzzle.upper()                            # 统一转换为大写
-    words = re.findall('[A-Z]+', puzzle)               # 正则表达式提取出字母
+    words = re.findall('[A-Z]+', puzzle)               # 提取出字母
     unique_characters = set(''.join(words))
     assert len(unique_characters) <= 10, 'Too many letters'  # 只有0—9十个数
     first_letters = {word[0] for word in words}    # 首字母
@@ -20,7 +20,7 @@ def solve(puzzle):
         if zero not in guess[:n]:
             equation = puzzle.translate(dict(zip(characters, guess)))     # 转换字符
             dig = tuple(chr(c) for c in guess)
-            if eval(equation):               # 将字符串string对象转化为有效的表达式参与求值运算返回计算结果
+            if eval(equation):               # 将字符串string对象转化为有效的表达式进行计算
                 print(sorted_characters)
                 print(dig)
                 return equation
