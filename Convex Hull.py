@@ -1,6 +1,7 @@
 import random
 import itertools
 import matplotlib.pyplot as plt
+import networkx as nx
 from itertools import permutations
 import numpy
 
@@ -63,9 +64,9 @@ if __name__ == '__main__':
     hull_poit.sort()
     print(hull_poit)
     print('\n')
-    for i in range(0,20):
-        print(poit_list[i][0],poit_list[i][1])
-        plt.scatter(poit_list[i][0],poit_list[i][1])
+    for i in range(0, 19):
+        print(poit_list[i][0], poit_list[i][1])
+        plt.scatter(poit_list[i][0], poit_list[i][1])
 
     line_y=[]
     line_x=[]
@@ -73,6 +74,17 @@ if __name__ == '__main__':
         line_x.append(h[0])
         line_y.append(h[1])
     # print(line_x,line_y,'\n')
-    plt.plot(line_x,line_y,color='r')
+    G=nx.Graph()
+    for h in range(len(hull_poit)):
+        G.add_node(h)
+    edge_arr=[]
+    for i in range(0, len(hull_poit)):
+        edge_arr.append(i)
+    for i in permutations(edge_arr,2):
+        # print(i)
+        G.add_edge(i[0], i[1])
+
+    pos = hull_poit
+    nx.draw(G, pos, node_size= 2)
     plt.show()
 
