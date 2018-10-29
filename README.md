@@ -13,4 +13,10 @@ Hamiltonian path： 哈密顿回路问题
 
 
 基于python 3环境
+需要用到的包：
+itertools
+matplotlib
+networkx
+numpy
+re
 欢迎改进
