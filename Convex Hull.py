@@ -12,7 +12,7 @@ def generate_num(n):  # 生成n个随机的点
     return lists
 
 
-def judge_num(m):
+def judge_num(m):  # 把正负数分别对应+1、—1
     if m >= 0:
         return 1
     else:
@@ -31,20 +31,21 @@ def judge_lowes(lists):
     return lowst
 
 
-def judge_hull(lists):
-    global hull_poit
-    for arr in permutations(lists, 2):
+def judge_hull(lists):  # 判断是不是凸包边界上的点
+    global hull_poit, flag_2
+    for arr in permutations(lists, 2):  # 全排列
         flag_arr = []
         if arr[:1] not in hull_poit:
             for test_point in lists:
-                if  test_point not in arr[:1]:
-                    arr_test = numpy.array([[arr[0][0], arr[0][1], 1], [arr[1][0], \
-                            arr[1][1], 1], [test_point[0], test_point[1], 1]])
+                if test_point not in arr[:1]:
+                    arr_test = numpy.array([[arr[0][0], arr[0][1], 1],
+                                            [arr[1][0], arr[1][1], 1],
+                                            [test_point[0], test_point[1], 1]])  # 构建矩阵
                     flag = numpy.linalg.det(arr_test)
                     flg = judge_num(flag)
                     flag_arr.append(flg)
-                    if flg != flag_arr[0]:
-                        flag_2=False
+                    if flg != flag_arr[0]:          # 判断剩余所有点是否全在直线的一侧
+                        flag_2 = False
                         break
                     else:
                         flag_2 = True
@@ -58,33 +59,32 @@ def judge_hull(lists):
 if __name__ == '__main__':
     global hull_poit
     poit_list = generate_num(20)
-    lowest=judge_lowes(poit_list)
-    low_new=judge_hull(poit_list)
-    hull_poit=list(set(hull_poit))
+    lowest = judge_lowes(poit_list)
+    low_new = judge_hull(poit_list)
+    hull_poit = list(set(hull_poit))
     hull_poit.sort()
     print(hull_poit)
     print('\n')
     for i in range(0, 19):
         print(poit_list[i][0], poit_list[i][1])
-        plt.scatter(poit_list[i][0], poit_list[i][1])
+        plt.scatter(poit_list[i][0], poit_list[i][1])           # 绘图，添加所有的点
 
-    line_y=[]
-    line_x=[]
+    line_y = []
+    line_x = []
     for h in hull_poit:
         line_x.append(h[0])
         line_y.append(h[1])
     # print(line_x,line_y,'\n')
-    G=nx.Graph()
+    G = nx.Graph()
     for h in range(len(hull_poit)):
         G.add_node(h)
-    edge_arr=[]
+    edge_arr = []
     for i in range(0, len(hull_poit)):
         edge_arr.append(i)
-    for i in permutations(edge_arr,2):
+    for i in permutations(edge_arr, 2):
         # print(i)
         G.add_edge(i[0], i[1])
 
     pos = hull_poit
-    nx.draw(G, pos, node_size= 2)
+    nx.draw(G, pos, node_size=2)
     plt.show()
-
