@@ -56,19 +56,10 @@ def judge_hull(lists):  # 判断是不是凸包边界上的点
     return hull_poit
 
 
-if __name__ == '__main__':
-    global hull_poit
-    poit_list = generate_num(20)
-    lowest = judge_lowes(poit_list)
-    low_new = judge_hull(poit_list)
-    hull_poit = list(set(hull_poit))
-    hull_poit.sort()
-    print(hull_poit)
-    print('\n')
+def draw_picture():
     for i in range(0, 19):
-        print(poit_list[i][0], poit_list[i][1])
+        # print(poit_list[i][0], poit_list[i][1])
         plt.scatter(poit_list[i][0], poit_list[i][1])           # 绘图，添加所有的点
-
     line_y = []
     line_x = []
     for h in hull_poit:
@@ -84,7 +75,19 @@ if __name__ == '__main__':
     for i in permutations(edge_arr, 2):
         # print(i)
         G.add_edge(i[0], i[1])
-
     pos = hull_poit
-    nx.draw(G, pos, node_size=2)
+    nx.draw(G, pos, node_size=36)
     plt.show()
+
+
+if __name__ == '__main__':
+    global hull_poit
+    poit_list = generate_num(20)
+    lowest = judge_lowes(poit_list)
+    low_new = judge_hull(poit_list)
+    hull_poit = list(set(hull_poit))
+    hull_poit.sort()
+    print('凸包边界上的点包括：\n')
+    print(hull_poit)
+    print('\n')
+    draw_picture()
