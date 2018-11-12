@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from itertools import permutations
 import numpy
+import math
 
 
 def generate_num(n):  # 生成n个随机的点
@@ -56,18 +57,43 @@ def judge_hull(lists):  # 判断是不是凸包边界上的点
     return hull_poit
 
 
+
+def min_dis(w_p, w_list):
+    global sorted_hull
+
+    w_list.remove(w_p)
+    min=99999
+    if len(w_list)>0:
+        # print(w_list)
+        min_id=0
+        for i in range(0, len(w_list)):
+            dis=math.hypot(w_p[0]-w_list[i][0], w_p[1]-w_list[i][1])
+            if dis< min:
+                min=dis
+                min_id=i
+        # print(w_list[i])
+        sorted_hull.append(w_list[min_id])
+        min_dis(w_list[min_id],w_list)
+    else:
+
+        return
+
+
 def draw_picture():
-    for i in range(0, 19):
+    for i in range(0, 49):
         # print(poit_list[i][0], poit_list[i][1])
         plt.scatter(poit_list[i][0], poit_list[i][1])           # 绘图，添加所有的点
     line_y = []
     line_x = []
-    for h in hull_poit:
+    # plt.show()
+    for h in sorted_hull:
         line_x.append(h[0])
         line_y.append(h[1])
     # print(line_x,line_y,'\n')
+    line_x.append(line_x[0])
+    line_y.append(line_y[0])
     G = nx.Graph()
-    for h in range(len(hull_poit)):
+    for h in range(len(sorted_hull)):
         G.add_node(h)
     edge_arr = []
     for i in range(0, len(hull_poit)):
@@ -75,19 +101,26 @@ def draw_picture():
     for i in permutations(edge_arr, 2):
         # print(i)
         G.add_edge(i[0], i[1])
-    pos = hull_poit
+    pos = sorted_hull
     nx.draw(G, pos, node_size=36)
+    plt.plot(line_x,line_y)
     plt.show()
 
 
 if __name__ == '__main__':
     global hull_poit
-    poit_list = generate_num(20)
+    global sorted_hull
+    poit_list = generate_num(50)
     lowest = judge_lowes(poit_list)
     low_new = judge_hull(poit_list)
     hull_poit = list(set(hull_poit))
-    hull_poit.sort()
+    # hull_poit.sort()
     print('凸包边界上的点包括：\n')
     print(hull_poit)
     print('\n')
+    sorted_hull=[lowest]
+
+    min_dis(lowest, hull_poit)
     draw_picture()
+    # print(sorted_hull)
+

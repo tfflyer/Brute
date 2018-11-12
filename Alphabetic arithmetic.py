@@ -1,4 +1,5 @@
 import re
+import easygui as eg
 import time
 from itertools import permutations                  # 全排列的包
 
@@ -31,7 +32,7 @@ def solve(puzzle):
 if __name__ == '__main__':
     start = time.clock()
     # puzzle = "send + more == money"
-    puzzle = input("请输入字母算术式,并用‘==’连接：")
+    puzzle = eg.enterbox(msg="请输入字母算术式,并用‘==’连接：", title='请输入')
     try:
         print(puzzle.upper())
         solution = solve(puzzle)
@@ -39,6 +40,7 @@ if __name__ == '__main__':
         if solution:
             print(puzzle)
             print('\n'+solution)
+            eg.msgbox(puzzle+'\n'+solution, 'Alphabetic arithmetic')
             print("final is in ", round(end - start), 's')
         else:
             print("sorry，这个式子臣妾真的尽力了，找不到结果")
