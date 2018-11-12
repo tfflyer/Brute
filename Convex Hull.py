@@ -50,7 +50,6 @@ def judge_hull(lists):  # 判断是不是凸包边界上的点
                         break
                     else:
                         flag_2 = True
-
             if 1 not in flag_arr or -1 not in flag_arr and flag_2:
                 hull_poit.append(arr[0])
                 hull_poit.append(arr[1])
