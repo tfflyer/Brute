@@ -1,8 +1,12 @@
+"""
+
+约瑟夫问题
+
+"""
 
 
-def judge_order(n):
+def judge_killer(n):
     lists = [i for i in range(1, n+1)]
-    # print(lists)
     l_c = lists.count(0)
     i = 0
     k = 0
@@ -24,4 +28,4 @@ def judge_order(n):
 if __name__ == '__main__':
     # num=input('请输入人的个数')
     num = 41
-    judge_order(num)
+    judge_killer(num)
