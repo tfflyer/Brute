@@ -53,7 +53,7 @@ def find_all_paths(graph, start, end, path=[]):
 
 
 if __name__ == '__main__':
-    write_picture(graph)
+    write_picture(str(graph))
     start = input('请输入你所希望的起点')
     start = start.upper()
     end = input('请输入你所希望的终点')

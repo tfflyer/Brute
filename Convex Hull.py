@@ -1,10 +1,11 @@
 import random
 import itertools
+from itertools import permutations
 import matplotlib.pyplot as plt
 import networkx as nx
-from itertools import permutations
 import numpy
 import math
+import turtle
 
 
 def generate_num(n):  # 生成n个随机的点
@@ -26,9 +27,7 @@ def judge_lowes(lists):
     y_min = min(y_list)
     y_id = y_list.index(y_min)  # 寻找纵坐标最低的那个点
     hull_poit = [lists[y_id]]  # 边界点的集合
-    # print(hull_poit)
     lowst = lists[y_id]
-    # print(lowst)
     return lowst
 
 
@@ -56,7 +55,6 @@ def judge_hull(lists):  # 判断是不是凸包边界上的点
     return hull_poit
 
 
-
 def min_dis(w_p, w_list):
     global sorted_hull
 
@@ -64,11 +62,11 @@ def min_dis(w_p, w_list):
     min=99999
     if len(w_list)>0:
         # print(w_list)
-        min_id=0
+        min_id = 0
         for i in range(0, len(w_list)):
-            dis=math.hypot(w_p[0]-w_list[i][0], w_p[1]-w_list[i][1])
-            if dis< min:
-                min=dis
+            dis = math.atan2(w_p[1]-w_list[i][1], w_p[0]-w_list[i][0])
+            if dis < min:
+                min = dis
                 min_id=i
         # print(w_list[i])
         sorted_hull.append(w_list[min_id])
@@ -79,16 +77,13 @@ def min_dis(w_p, w_list):
 
 
 def draw_picture():
-    for i in range(0, 49):
-        # print(poit_list[i][0], poit_list[i][1])
+    for i in range(0, 29):
         plt.scatter(poit_list[i][0], poit_list[i][1])           # 绘图，添加所有的点
     line_y = []
     line_x = []
-    # plt.show()
     for h in sorted_hull:
         line_x.append(h[0])
         line_y.append(h[1])
-    # print(line_x,line_y,'\n')
     line_x.append(line_x[0])
     line_y.append(line_y[0])
     G = nx.Graph()
@@ -98,28 +93,48 @@ def draw_picture():
     for i in range(0, len(hull_poit)):
         edge_arr.append(i)
     for i in permutations(edge_arr, 2):
-        # print(i)
         G.add_edge(i[0], i[1])
     pos = sorted_hull
     nx.draw(G, pos, node_size=36)
-    plt.plot(line_x,line_y)
+    plt.plot(line_x, line_y)
     plt.show()
+
+
+def draw_gif(s_l,p_l):
+    turtle.screensize(400, 300)
+    turtle.setup(800, 600)
+    turtle.pensize(5)
+
+    turtle.up()
+    turtle.hideturtle()
+    s_l.append(s_l[0])
+    for p in p_l:
+        turtle.pencolor(random.randint(0, 10)/10, random.randint(0, 10)/10, random.randint(0, 10)/10)
+        turtle.goto(p[0]*10, p[1]*10)
+        turtle.down()
+        turtle.goto(p[0]*10, p[1]*10)
+        turtle.up()
+    turtle.pensize(3)
+    turtle.pencolor('red')
+    turtle.showturtle()
+    turtle.speed(2)
+    for h in s_l:
+        turtle.goto(h[0]*10, h[1]*10)
+        turtle.down()
+    turtle.done()
 
 
 if __name__ == '__main__':
     global hull_poit
     global sorted_hull
-    poit_list = generate_num(50)
+    poit_list = generate_num(30)
     lowest = judge_lowes(poit_list)
     low_new = judge_hull(poit_list)
     hull_poit = list(set(hull_poit))
-    # hull_poit.sort()
     print('凸包边界上的点包括：\n')
     print(hull_poit)
-    print('\n')
-    sorted_hull=[lowest]
-
+    sorted_hull = [lowest]
     min_dis(lowest, hull_poit)
+    draw_gif(sorted_hull, poit_list)
     draw_picture()
     # print(sorted_hull)
-
