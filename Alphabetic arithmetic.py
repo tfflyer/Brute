@@ -30,9 +30,9 @@ def solve(puzzle):
 
 
 if __name__ == '__main__':
-    start = time.clock()
     # puzzle = "send + more == money"
     puzzle = eg.enterbox(msg="请输入字母算术式,并用‘==’连接：", title='请输入')
+    start = time.clock()
     try:
         print(puzzle.upper())
         solution = solve(puzzle)
