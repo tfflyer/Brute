@@ -4,7 +4,6 @@
 **Alphabetic arithmetic**:字母算术式的蛮力破解法
 
 
-**Convex Hull**:凸包的蛮力算法
 
  
 **Hamiltonian path**: 哈密顿回路问题
